@@ -1,7 +1,7 @@
-import math
+import math # will be changed to numpy at some point
 
 class Segment():
-    def __init__(self, p0, p1, v):
+    def __init__(self, p0, p1, v): #p0, p1 are lists
         self.p0 = p0.copy()
         self.p1 = p1.copy()
         self.v = v
@@ -9,16 +9,19 @@ class Segment():
         self.ang = self.angle()
         
         
-    def length(self, p0, p1):
+    def length(self):
+        """Calculates the length of segment"""
         return math.sqrt((p1[0]-p0[0])**2+(p1[1]-p0[1])**2)
 
     def angle(self):
+        """Calculates the beesési szög"""
         return math.acos(1/self.len)
 
     def transition(self, p2):
+        """Assumes the properties of the new segment"""
         self.p0 = self.p1.copy()
         self.p1 = p2.copy()
-        self.len = self.length(self.p0, self.p1)
+        self.len = self.length()
         newang = self.angle()
         self.v = math.sin(newang)*self.v/math.sin(self.ang)
         self.ang = newang
@@ -27,7 +30,8 @@ class Segment():
         """Calculate the time needed to travrese the segment"""
         return self.len/self.v
 
-
+###################################################################################################
+#testing area, will be deleted at some point
 points = []
 for i in range(10, -1, -1):
     points.append(i)
