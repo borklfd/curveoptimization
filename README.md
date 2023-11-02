@@ -1,2 +1,1 @@
 # curveoptimization
-jó ronda lett
