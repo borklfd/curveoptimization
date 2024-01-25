@@ -16,7 +16,7 @@ def simulate(hh):
         v_1 = v
         if hh[h]<0:
             return 1
-        v = np.sqrt(2*g*hh[h])
+        v = np.sqrt(2*g*hh[h])+1
         dh = hh[h]-hh[h-1]
         t = 2*np.sqrt(dh**2+1)/(v+v_1)
         tt = np.append(tt, t)
@@ -37,22 +37,20 @@ def accept(t0, t1, T):
 tlist = np.array([])
 t = np.sum(simulate(hh))
 T = 1
-for i in range(10000):
-    for h in range(1, len(hh)-1):
-        hhc = hh.copy()
-        #hhc = hmax*hhc/hhc[p-1]
-        change = np.random.normal(0, 1)
-        for hc in range(h, len(hhc)-1):
-            hhc[hc] += change*(np.exp(h-hc))
-        tt = simulate(hhc)
-        if type(tt)!=int:
-            t1 = sum(tt)
-        else:
-            t1 = 9999999
-        if accept(t, t1, T):
-            t = t1
-            tlist = np.append(tlist, t)
-            hh = hhc.copy()
+for i in range(100000):
+    h = np.random.randint(1, len(hh)-1)
+    hhc = hh.copy()
+    change = np.random.normal(0, 1)
+    hhc[h] += change
+    tt = simulate(hhc)
+    if type(tt)!=int:
+        t1 = sum(tt)
+    else:
+        t1 = 9999999
+    if accept(t, t1, T):
+        t = t1
+        tlist = np.append(tlist, t)
+        hh = hhc.copy()
     T = T*0.9
 
 plt.ylabel("Position")
